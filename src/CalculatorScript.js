@@ -5,50 +5,72 @@ var answer;
 var isFirstNumberDone = false;
 var isNumberOperatorEntered = false;
 var isCalculationComplete = false;
-console.log("Script loaded");
+var isCommaEntered = false;
+var numberAfterComma = 1;
 
 function updateText(){
-	console.log(operator);
 	if(isCalculationComplete){
 		document.getElementById("outputText").innerHTML = number1 + " " + operator + " " + number2 + " = " + answer;
 	}else if(number2 == null && operator == null && number1 == null){
 		//do nothing
-		console.warning("Nothing to update text with");
 	}else if(number2 == null && operator == null){
 		document.getElementById("outputText").innerHTML = number1;
-		console.log("Updating first number text");
 	}else if(number2 == null){
 		document.getElementById("outputText").innerHTML = number1 + " " + operator;
-		console.log("Updating first number and operator text");
 	}else{
 		document.getElementById("outputText").innerHTML = number1 + " " + operator + " " + number2;
-		console.log("Updating first number, operator and second number text");
 	}
 }
 
 function enterNumber(number){
 	if(!isCalculationComplete){
 		if(!isFirstNumberDone){
-			if(number1 == null){
-				number1 = number;
-				updateText(null);
-				console.log("First number entered: " + number1);
+			if(isCommaEntered){
+				if(number1 == null){
+					number1 = number / Math.pow(10, numberAfterComma);
+					updateText();
+				}else{
+					number1 = number1 + (number / Math.pow(10, numberAfterComma));
+					updateText();
+				}
+				numberAfterComma++;
 			}else{
-				number1 = (number1 * 10) + number;
-				updateText(null);
-				console.log("First number changed to: " + number1);
+				if(number1 == null){
+					number1 = number;
+					updateText();
+				}else{
+					number1 = (number1 * 10) + number;
+					updateText();
+				}
 			}
 		}else{
-			if(number2 == null){
-				number2 = number;
-				updateText(operator);
-				console.log("Second number entered: " + number2);
+			if(isCommaEntered){
+				if(number2 == null){
+					number2 = number / Math.pow(10, numberAfterComma);
+					updateText();
+				}else{
+					number2 = number2 + (number / Math.pow(10, numberAfterComma));
+					updateText();
+				}
+				numberAfterComma++;
 			}else{
-				number2 = (number2 * 10) + number;
-				updateText(operator);
-				console.log("Second number changed to: " + number2);
+				if(number2 == null){
+					number2 = number;
+					updateText();
+				}else{
+					number2 = (number2 * 10) + number;
+					updateText();
+				}
 			}
 		}
+	}
+}
+
+function enterComma(){
+	if(!isCommaEntered){
+		isCommaEntered = true;
+	}else{
+		//if comma is alrdy active do some animation to tell the user
 	}
 }
 
@@ -79,10 +101,11 @@ function enterOperator(newOperator){
 		}else if(newOperator == '/'){
 			operator = "/";
 		}
+		numberAfterComma = 1;
+		isCommaEntered = false;
 		isFirstNumberDone = true;
 		isNumberOperatorEntered = true;
 		updateText();
-		console.log(operator + " registered as main operator");
 	}else if(!isCalculationComplete){
 		//repeat operators should tell the user its doing something wrong
 		turnOpColorsRedAndBack();
@@ -105,4 +128,17 @@ function turnOpColorsBack(){
 	for(let i = 0; i < buttons.length; i++){
 		buttons[i].style.backgroundColor = "Azure";
 	}
+}
+
+function reset(){
+	number1 = null;
+	number2 = null;
+	operator = null;
+	answer = null;
+	numberAfterComma = 1;
+	isFirstNumberDone = false;
+	isNumberOperatorEntered = false;
+	isCalculationComplete = false;
+	isCommaEntered = false;
+	document.getElementById("outputText").innerHTML = "Ready to be used!";
 }

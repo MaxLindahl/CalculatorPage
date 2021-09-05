@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<h1 id="header1">A Cool Calculator!</h1>
-		<table>
+		<table id ="calcTable">
 			<tr>
 				<td>
 					<div id="outputText">Ready to be used!</div>
@@ -39,11 +39,19 @@
 			<tr>
 				<td>
 					<div id="0" class="number" onclick="enterNumber(0)">0</div>
-					<div id="." class="number" onclick="enterComma('.')">.</div>
+					<div id="." class="number" onclick="enterComma()">.</div>
 					<div id="equals" onclick="enterOperator('=')">=</div>
 					<div id="/" class="operator" onclick="enterOperator('/')">/</div>
 				</td>
 			</tr>
 		</table>
+		<table id="extraTable">
+			<tr>
+				<td>
+					<div id="clear1" class="extra" onclick="reset()">Clear</div>
+				</td>
+			</tr>
+		</table>
+		
 	</body>
 </html>
